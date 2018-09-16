@@ -11,35 +11,18 @@ class WashingtonHikes::Hike
 
   def self.create_from_wta
     hikes = WashingtonHikes::Scraper.new.scrape_wta_hike_list
-    hikes.each.with_index do |hike,i|
+    hikes.each do |hike|
       #binding.pry
-      #attributes = {
-      #  :name => hike.css(".item-header span").text,
-      #  :region => hike.css(".item-header h3.region").text.split(" -- ")[0],
-      #  :length => hike.css(".hike-detail .hike-stats .hike-length span")[i].text,
-      #  :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span")[i].text,
-      #  :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating")[i].text,
-      #  :url => hike.css(".item-header a.listitem-title").attribute("href").value
-      #}
-
       attributes = {
-        :name => "Wenatchee Guard Station",
-        :region => "Southwest Washington",
-        :length => "5.8 miles",
-        :elevation_gain => "1480 ft",
-        :rating => "3.8",
-        :url => "www.wta.org"
+        :name => hike.css(".item-header span").text,
+        :region => hike.css(".item-header h3.region").text.split(" -- ")[0],
+        :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text,
+        :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text,
+        :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text,
+        :url => hike.css(".item-header a.listitem-title").attribute("href").value
       }
-
       self.new(attributes)
     end
-    binding.pry
-    #url = page.first.css(".search-result-item .item-header a.listitem-title").attribute("href").value
-    #name = page.first.css(".search-result-item .item-header a.listitem-title span")[i].text
-    #region = page.first.css(".search-result-item .item-header h3.region").text.split(" -- ")[0]
-    #miles = page.first.css(".search-result-item .hike-detail .hike-stats .hike-length span")[i].text
-    #gain = page.first.css(".search-result-item .hike-detail .hike-stats .hike-gain span")[i].text
-    #rating = page.first.css(".search-result-item .hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating")[i].text
   end
 
   def self.all

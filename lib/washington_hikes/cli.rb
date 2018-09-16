@@ -3,8 +3,8 @@ class WashingtonHikes::CLI
   def start
     WashingtonHikes::Hike.create_from_wta
     #create some hike instances, eventaully through scrapting
-    @hike_1 = WashingtonHikes::Hike.new("hike_1")
-    hike_2 = WashingtonHikes::Hike.new("hike_2")
+    @hike_1 = WashingtonHikes::Hike.new({})
+    hike_2 = WashingtonHikes::Hike.new({})
 
     puts "\nWelcome to Washington Hikes!\n "
 
