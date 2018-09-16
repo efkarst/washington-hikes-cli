@@ -1,14 +1,16 @@
-1. Plan your gem, imagine your interface
-2. start with the project structure - google
-3. start with the entry point - the file run\
-4. force that to build the CLI interface
 
-put in github?
-5. stub out the interface w/ fake data
-6. start making things real
-7. discover objects
-8. program
 
+
+MVP Washington Hikes:
+1. When the user runs the app, they will see a greeting and be able to: choose a region they would like to look in, see all hikes, or exit the app
+2. if they select all hikes they see a list of the top 30 hikes with the option to see more
+3. if they select region they will be able to choose a region to see hikes in, and then will see a list of fake hikes
+4. if they type exit they exit the program
+
+
+
+
+Description:
 
 WashingtonHikesCLI will be a command-line app to allow a user to find a hike in a specified region of Washington state, and potentially filter available hikes based on additional properties such as hike length and elevation gain.  When the user runs the app, they will see a greeting and be able to type a number corresponding to one of the following actions: choose the region they would like to look in, see all hikes, or exit the app.   Hikes will be scraped from wta.org based on filter criteria. 
 
@@ -19,3 +21,8 @@ From the main menu, if a user types "all" they will see a list of hikes across a
 The user will not be able to create or edit hikes.
 
 This CLI project will have three classes: Hike, HikeScraper and WashingtonHikesCLI. 
+
+
+QUESTIONS
+1. how do I make my code run without "ruby" before the executables on a Windows device?
+2. 

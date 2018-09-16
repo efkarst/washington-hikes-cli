@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-#require_relative '../lib/washington_hikes'
-require_relative '../config/environment'
+require_relative '../lib/washington_hikes'
 
-WashingtonHikes::CLI.new.call
+WashingtonHikes::CLI.new.start
