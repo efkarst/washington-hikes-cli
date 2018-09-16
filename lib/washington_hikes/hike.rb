@@ -10,18 +10,17 @@ class WashingtonHikes::Hike
   end
 
   def self.create_from_wta
-    hikes = WashingtonHikes::Scraper.new.scrape_wta_hike_list
-    hikes.each do |hike|
-      #binding.pry
+    scraped_hikes = WashingtonHikes::Scraper.new.scrape_wta_hike_list
+    scraped_hikes.each do |hike|
       attributes = {
-        :name => hike.css(".item-header span").text,
+        :name => hike.css(".item-header span").text.split(" - ")[0],
         :region => hike.css(".item-header h3.region").text.split(" -- ")[0],
         :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text,
         :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text,
         :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text,
         :url => hike.css(".item-header a.listitem-title").attribute("href").value
       }
-      self.new(attributes)
+      self.new(attributes) if attributes != {}
     end
   end
 
@@ -31,8 +30,9 @@ class WashingtonHikes::Hike
   
   # Lists hikes in a specified region
   def self.list_hikes(region)
-    puts "1. Hike 1 -- 7 miles -- 500ft gain"
-    puts "2. Hike 2 -- 8 miles -- 2500ft gain"
+    self.all.each.with_index(1) do |hike,i|
+      puts "#{i}. #{hike.name} -- #{hike.length} -- #{hike.elevation_gain}"
+    end
   end
 
   # Shows details on a chosen hike
