@@ -30,9 +30,12 @@ class WashingtonHikes::Hike
   
   # Lists hikes in a specified region
   def self.list_hikes(region)
+    hike_by_displayed_number = {}
     self.all.each.with_index(1) do |hike,i|
       puts "#{i}. #{hike.name} -- #{hike.length} -- #{hike.elevation_gain}"
+      hike_by_displayed_number[i] = hike
     end
+    hike_by_displayed_number
   end
 
   def add_hike_details
@@ -48,7 +51,7 @@ class WashingtonHikes::Hike
     puts "Length: #{self.length}"
     puts "Elevation Gain: #{self.elevation_gain}"
     puts "Rating: #{self.rating} / 5"
-    puts "Features: #{self.features.join(", ")}"
+   # puts "Features: #{self.features.join(", ")}"
     puts ""
     puts "#{self.description}"
     puts "\n----------------------------\n \n"
@@ -57,7 +60,7 @@ class WashingtonHikes::Hike
   # Lists regions the user can choose from
   def self.list_regions
     regions = self.all.collect {|hike| hike.region}.uniq
-    regions.delete(nil)
+    #regions.delete(nil)
     regions.each.with_index(1) {|region,i| puts "#{i}. #{region}"}
   end
 end

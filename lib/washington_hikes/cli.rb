@@ -56,19 +56,21 @@ class WashingtonHikes::CLI
   # Prompts user to choose a hike
   def choose_hike(region)
     puts "Here are hikes in the region:\n "
-    WashingtonHikes::Hike.list_hikes(region)
+    hikes = WashingtonHikes::Hike.list_hikes(region)
 
     puts "Choose a number to see details on a hike, or type 'back' to get to the main menu."
     input = gets.chomp
+    #binding.pry
 
-    #ID which hike instance corresponds to the hike the user selected
+     #ID which hike instance corresponds to the hike the user selected
   
     # Get detailson the delected hike
     case input
     when "back"
       start
     else
-      WashingtonHikes::Hike.all.sample.list_hike_details
+      hike = hikes[input.to_i]
+      hike.list_hike_details
     end
 
     what_next?(region)
