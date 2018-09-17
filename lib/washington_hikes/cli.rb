@@ -3,8 +3,8 @@ class WashingtonHikes::CLI
   def start
     WashingtonHikes::Hike.create_from_wta
     #create some hike instances, eventaully through scrapting
-    @hike_1 = WashingtonHikes::Hike.new({})
-    hike_2 = WashingtonHikes::Hike.new({})
+    #@hike_1 = WashingtonHikes::Hike.new({:url => "wta.org"})
+    #hike_2 = WashingtonHikes::Hike.new({})
 
     puts "\nWelcome to Washington Hikes!\n "
 
@@ -65,12 +65,10 @@ class WashingtonHikes::CLI
   
     # Get detailson the delected hike
     case input
-    when "1"
-      @hike_1.hike_details("hike_1")
-    when "2"
-      #WashingtonHikes::Hike.hike_details("hike_2")
     when "back"
       start
+    else
+      WashingtonHikes::Hike.all.sample.list_hike_details
     end
 
     what_next?(region)

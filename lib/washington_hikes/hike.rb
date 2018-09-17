@@ -1,7 +1,7 @@
 require 'pry'
 
 class WashingtonHikes::Hike
-  attr_accessor :name, :length, :elevation_gain, :region, :description, :url, :rating
+  attr_accessor :name, :length, :elevation_gain, :region, :description, :url, :rating, :features
   @@all = []
 
   def initialize(attributes)
@@ -10,7 +10,7 @@ class WashingtonHikes::Hike
   end
 
   def self.create_from_wta
-    scraped_hikes = WashingtonHikes::Scraper.new.scrape_wta_hike_list
+    scraped_hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
     scraped_hikes.each do |hike|
       attributes = {
         :name => hike.css(".item-header span").text.split(" - ")[0].strip,
@@ -35,15 +35,22 @@ class WashingtonHikes::Hike
     end
   end
 
+  def add_hike_details
+    scraped_details = WashingtonHikes::Scraper.scrape_wta_hike_details(self.url)
+    scraped_details.each {|key, value| self.send(("#{key}="), value)}
+  end
+
   # Shows details on a chosen hike
-   def hike_details(hike)
+   def list_hike_details
+    add_hike_details
     puts "\n \n----------------------------"
-    puts "\nWenatchee Guard Station"
-    puts "Length: 5.8 Miles, one-way"
-    puts "Elevation Gain: 1480 ft"
-    puts "Rating: 5 stars"
+    puts "\n#{self.name}"
+    puts "Length: #{self.length}"
+    puts "Elevation Gain: #{self.elevation_gain}"
+    puts "Rating: #{self.rating} / 5"
+    puts "Features: #{self.features.join(", ")}"
     puts ""
-    puts "Enjoy fantastic views of the Blue Mountains from this cozy retreat on the edge of the Umatilla National Forest. \n Perched on an overlook above the Blue Mountains and just outside the Wenaha-Tucannon Wilderness in the Umatilla National Forest, the Wenatchee Guard Station was built by the Civilian Conservation Corps in 1934-1935. While many such historic structures have since been lost, this one has been maintained as a year-round forest service rental. Summer visitors will be able to drive right to the cabin, and winter visitors can access the building by ski, snowshoe, or snowmobile."
+    puts "#{self.description}"
     puts "\n----------------------------\n \n"
   end
 
