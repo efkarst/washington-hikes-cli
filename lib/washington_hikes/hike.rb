@@ -14,7 +14,7 @@ class WashingtonHikes::Hike
     scraped_hikes.each do |hike|
       attributes = {
         :name => hike.css(".item-header span").text.split(" - ")[0].strip,
-        :region => hike.css(".item-header h3.region").text.split(" -- ")[0].strip,
+        :region => WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip),
         :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.strip,
         :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip,
         :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
@@ -58,9 +58,9 @@ class WashingtonHikes::Hike
   end
 
   # Lists regions the user can choose from
-  def self.list_regions
-    regions = self.all.collect {|hike| hike.region}.uniq
-    #regions.delete(nil)
-    regions.each.with_index(1) {|region,i| puts "#{i}. #{region}"}
-  end
+  #def self.list_regions
+  #  regions = self.all.collect {|hike| hike.region}.uniq
+  #  #regions.delete(nil)
+  #  regions.each.with_index(1) {|region,i| puts "#{i}. #{region}"}
+  #end
 end

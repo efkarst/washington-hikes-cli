@@ -1,10 +1,9 @@
 # Command Line Interface for Washington Hikes CLI App
 class WashingtonHikes::CLI
   def start
+    #Scrape WTA to create hike and region object instances
     WashingtonHikes::Hike.create_from_wta
-    #create some hike instances, eventaully through scrapting
-    #@hike_1 = WashingtonHikes::Hike.new({:url => "wta.org"})
-    #hike_2 = WashingtonHikes::Hike.new({})
+    #binding.pry
 
     puts "\nWelcome to Washington Hikes!\n "
 
@@ -31,7 +30,7 @@ class WashingtonHikes::CLI
   # Prompts user to choose a region to see hikes in
   def choose_region
     puts "Choose a region by typing the corresponding number, or type 'back' to go back to the main menu."
-    WashingtonHikes::Hike.list_regions
+    WashingtonHikes::Region.list_regions
 
     input = gets.chomp
 
@@ -47,7 +46,7 @@ class WashingtonHikes::CLI
     when "5"
       choose_hike("region_5")
     when "6"
-      choose_hike("region_6")
+      choose_hike("region_6  - region.hikes")
     when "back"
       start
     end
@@ -56,6 +55,7 @@ class WashingtonHikes::CLI
   # Prompts user to choose a hike
   def choose_hike(region)
     puts "Here are hikes in the region:\n "
+    #this shoudl call on the region if it's by region?
     hikes = WashingtonHikes::Hike.list_hikes(region)
 
     puts "Choose a number to see details on a hike, or type 'back' to get to the main menu."

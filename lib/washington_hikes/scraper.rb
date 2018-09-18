@@ -6,6 +6,13 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_list
+    #how do i iterate through more hikes???
+    #pages = []
+    #2.times do
+      #pages << get_wta_page.css("div#search-result-listing .search-result-item")
+    #end
+
+    #working code for 1st page
     get_wta_page.css("div#search-result-listing .search-result-item")
   end
 
