@@ -13,7 +13,6 @@ class WashingtonHikes::Region
   end
 
   def self.list_regions
-    puts ""
     region_by_displayed_number = {}
     self.all.each.with_index(1) do |region,i| 
       puts "#{i}. #{region.name}"

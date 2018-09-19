@@ -1,22 +1,21 @@
 # Command Line Interface for Washington Hikes CLI App
 class WashingtonHikes::CLI
-  attr_accessor :region
+  attr_accessor :region, :hike_list_scope
 
   def start
-    #Scrape WTA to create hike and region object instances
-    # need to figure out how to grab more hike instances by looping through web pages...
     WashingtonHikes::Hike.create_from_wta
-    #binding.pry
     welcome
   end
 
   def welcome
-    puts "\nWelcome to Washington Hikes!\n "
+    puts "\n\nWelcome to Washington Hikes!\n "
     puts ""
-    puts "What would you like to do? Type '1', '2', or '3'."
+    puts "What would you like to do?"
     puts "1. Find hikes in a specific region of Washington"
     puts "2. Browse hikes across all of Washington"
     puts "3. Exit the app.\n "
+    puts "Type '1', '2', or '3' to choose."
+
 
     input = gets.chomp
 
@@ -24,7 +23,8 @@ class WashingtonHikes::CLI
     when "1"
       choose_region
     when "2"
-      choose_hike_from_all
+      @hike_list_scope = "all"
+      choose_hike
     when "3"
       exit
     else
@@ -32,75 +32,68 @@ class WashingtonHikes::CLI
     end
   end
 
-  
-  # Prompts user to choose a region to see hikes in
   def choose_region
-    puts "Here are the regions you can choose from:\n "
-    regions = WashingtonHikes::Region.list_regions
-    puts "Choose a region by typing the corresponding number, or type 'menu' to get to the main menu."
+    puts "\n\nHere are the regions you can choose from:\n "
+    region_list = WashingtonHikes::Region.list_regions
+    puts "\nChoose a region by typing the corresponding number, or type 'menu' to get to the main menu."
 
     input = gets.chomp
 
-    if input == "back"
+    if input == "menu"
       welcome
+    elsif input.to_i.between?(1,region_list.size)
+      @region = region_list[input.to_i]
+      @hike_list_scope = "region"
+      choose_hike
     else
-      @region = regions[input.to_i]
-      choose_hike_from_region
+      choose_region
     end
   end
 
-  # Prompts user to choose a hike
-  def choose_hike_from_region
-    puts "Here are hikes in the #{@region.name}:\n "
-    hikes = @region.list_hikes_from_region
-    puts "Choose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
+  def choose_hike
+    if @hike_list_scope == "all"
+      puts "\n\nHere are the top rated hikes in Washington:\n "
+      hike_list = WashingtonHikes::Hike.list_all_hikes
+    elsif @hike_list_scope == "region"
+      puts "\n\nHere are the top rated hikes in the #{@region}:\n "
+      hike_list = @region.list_hikes_from_region
+    end
+
+    puts "\nChoose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
 
     input = gets.chomp
     
-    if input == "back"
+    if input == "menu"
       welcome
-    else
-      hike = hikes[input.to_i]
+    elsif input.to_i.between?(1,hike_list.size)
+      hike = hike_list[input.to_i]
       hike.list_hike_details
+      @region = hike.region
+    else
+      choose_hike
     end
 
     what_next?
   end
 
-    # Prompts user to choose a hike
-    def choose_hike_from_all
-      puts "Here are hikes across Washington: "
-      hikes = WashingtonHikes::Hike.list_all_hikes
-      puts "Choose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
-  
-      input = gets.chomp
-      
-      if input == "back"
-        welcome
-      else
-        hike = hikes[input.to_i]
-        hike.list_hike_details
-        @region = hike.region
-      end
-  
-      what_next?
-    end
-
   def what_next?
     # do i need separate paths for users who choose to brose by region vs. brose all? probably
-    puts "What would you like to do next? Type '1', '2', or '3'."
+    puts "\n\nWhat would you like to do next?\n "
       puts "1. See more hikes in this region."
       puts "2. See all hikes."
-      puts "3. See regions"
+      puts "3. See all regions."
       puts "4. Exit the app.\n "
+      puts "Type '1', '2', '3' or '4' to choose."
   
       input = gets.chomp
   
       case input
       when "1"
-        choose_hike_from_region
+        @hike_list_scope = "region"
+        choose_hike
       when "2"
-        choose_hike_from_all
+        @hike_list_scope = "all"
+        choose_hike
       when "3"
         choose_region
       when "4"

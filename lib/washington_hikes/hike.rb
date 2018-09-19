@@ -63,7 +63,7 @@ class WashingtonHikes::Hike
   # Shows details on a chosen hike
    def list_hike_details
     add_hike_details
-    puts "\n \n----------------------------"
+    puts "\n----------------------------"
     puts "\n#{self.name}"
     puts "Region: #{self.region.name}"
     puts "Length: #{self.length}"
