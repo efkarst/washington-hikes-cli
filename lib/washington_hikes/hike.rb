@@ -60,7 +60,6 @@ class WashingtonHikes::Hike
     scraped_details.each {|key, value| self.send(("#{key}="), value)}
   end
 
-  # Shows details on a chosen hike
    def list_hike_details
     add_hike_details
     puts "\n----------------------------"
@@ -69,7 +68,7 @@ class WashingtonHikes::Hike
     puts "Length: #{self.length}"
     puts "Elevation Gain: #{self.elevation_gain}"
     puts "Rating: #{self.rating} / 5"
-   # puts "Features: #{self.features.join(", ")}"
+    puts "Features: #{self.features.join(", ")}"
     puts ""
     puts "#{self.description}"
     puts "\n----------------------------\n \n"

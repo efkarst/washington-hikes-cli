@@ -8,7 +8,11 @@ MVP Washington Hikes:
 4. if they type exit they exit the program
 
 
-
+ToDo:
+- figure out how many hikes to grab and from which URL
+- refactor any code
+- update works to say "top hikes" instead of "all" b/c you can't pull all that data
+- describe region features
 
 Description:
 
