@@ -14,7 +14,7 @@ class WashingtonHikes::Scraper
     
     pages = []
     i = 0
-    2.times do
+    10.times do
       url = "https://www.wta.org/go-outside/hikes?b_start:int=#{i}"
       pages << get_wta_page(url).css("div#search-result-listing .search-result-item")
       i += 30

@@ -13,6 +13,8 @@ ToDo:
 - refactor any code
 - update works to say "top hikes" instead of "all" b/c you can't pull all that data
 - describe region features
+- refactor rating to be pulled from page details?
+- if i show more hikes I need to limit the list to 10 hikes at a time
 
 Description:
 

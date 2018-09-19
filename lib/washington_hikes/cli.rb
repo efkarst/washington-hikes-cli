@@ -3,16 +3,16 @@ class WashingtonHikes::CLI
   attr_accessor :region, :hike_list_scope
 
   def start
+    puts "\n\nWelcome to Washington Hikes!"
+    puts "\n\nFinding the best hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
     welcome
   end
 
   def welcome
-    puts "\n\nWelcome to Washington Hikes!\n "
-    puts ""
-    puts "What would you like to do?"
-    puts "1. Find hikes in a specific region of Washington"
-    puts "2. Browse hikes across all of Washington"
+    puts "\n\nWhat would you like to do?"
+    puts "1. Find top rated hikes in a specific region of Washington"
+    puts "2. Browse top rated across all of Washington"
     puts "3. Exit the app.\n "
     puts "Type '1', '2', or '3' to choose."
 
@@ -79,9 +79,9 @@ class WashingtonHikes::CLI
   def what_next?
     # do i need separate paths for users who choose to brose by region vs. brose all? probably
     puts "\n\nWhat would you like to do next?\n "
-      puts "1. See more hikes in this region."
-      puts "2. See all hikes."
-      puts "3. See all regions."
+      puts "1. See more top rated hikes in this region."
+      puts "2. See top rated hikes across Washington."
+      puts "3. Choose a region."
       puts "4. Exit the app.\n "
       puts "Type '1', '2', '3' or '4' to choose."
   
