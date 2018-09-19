@@ -4,6 +4,7 @@ class WashingtonHikes::Region
   
   def initialize(name)
     @name = name
+    @hikes = []
     @@all << self
   end
 
@@ -13,7 +14,12 @@ class WashingtonHikes::Region
 
   def self.list_regions
     puts ""
-    self.all.each.with_index(1) {|region,i| puts "#{i}. #{region.name}"}
+    region_by_displayed_number = {}
+    self.all.each.with_index(1) do |region,i| 
+      puts "#{i}. #{region.name}"
+      region_by_displayed_number[i] = region
+    end
+    region_by_displayed_number
   end
 
   def self.find_or_create_region_by_name(name)
@@ -21,6 +27,15 @@ class WashingtonHikes::Region
     existing != nil ? existing : self.new(name)
   end
 
-  def hikes
+  def list_hikes_from_region
+    hike_by_displayed_number = {}
+    self.hikes.each.with_index(1) do |hike,i|
+      puts "#{i}. #{hike.name} -- #{hike.length} -- #{hike.elevation_gain}"
+      hike_by_displayed_number[i] = hike
+    end
+    hike_by_displayed_number
+  end
+
+  def features
   end
 end

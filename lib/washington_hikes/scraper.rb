@@ -1,19 +1,26 @@
 require 'pry'
 
 class WashingtonHikes::Scraper
-  def self.get_wta_page
-    Nokogiri::HTML(open("https://www.wta.org/go-outside/hikes?b_start:int=0"))
+  def self.get_wta_page(url)
+    #working
+    #Nokogiri::HTML(open("https://www.wta.org/go-outside/hikes?b_start:int=0"))
+
+    Nokogiri::HTML(open(url))
   end
 
   def self.scrape_wta_hike_list
-    #how do i iterate through more hikes???
-    #pages = []
-    #2.times do
-      #pages << get_wta_page.css("div#search-result-listing .search-result-item")
-    #end
-
     #working code for 1st page
-    get_wta_page.css("div#search-result-listing .search-result-item")
+    #get_wta_page.css("div#search-result-listing .search-result-item")
+    
+    pages = []
+    i = 0
+    2.times do
+      url = "https://www.wta.org/go-outside/hikes?b_start:int=#{i}"
+      pages << get_wta_page(url).css("div#search-result-listing .search-result-item")
+      i += 30
+    end
+    pages
+    
   end
 
   def self.get_wta_detail_page(url)
