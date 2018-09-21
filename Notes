@@ -9,11 +9,11 @@ MVP Washington Hikes:
 
 
 ToDo:
-- figure out how many hikes to grab and from which URL
-- refactor any code
-- update works to say "top hikes" instead of "all" b/c you can't pull all that data
-- describe region features
+- update URL to top rated
 - refactor rating to be pulled from page details?
+- in CLI, is hike_list_scope the best? how cna I make it more extensible? does it need to be function that takes in "filters" in an array or somethign?
+- refactor any code
+- describe region features
 - if i show more hikes I need to limit the list to 10 hikes at a time
 
 Description:

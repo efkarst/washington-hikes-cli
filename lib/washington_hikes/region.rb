@@ -34,7 +34,4 @@ class WashingtonHikes::Region
     end
     hike_by_displayed_number
   end
-
-  def features
-  end
 end

@@ -10,36 +10,12 @@ class WashingtonHikes::Hike
   end
 
   def self.create_from_wta
-    # working code
-    #scraped_hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
-    #scraped_hikes.each do |hike|
-    #  attributes = {
-    #    :name => hike.css(".item-header span").text.split(" - ")[0].strip,
-    #    :region => WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip),
-    #    :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.strip,
-    #    :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip,
-    #    :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
-    #    :url => hike.css(".item-header a.listitem-title").attribute("href").value.strip
-    #  }
-    #  self.new(attributes)
-    #end
-
-    scraped_hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
-    scraped_hikes.each do |page_of_hikes|
-      page_of_hikes.each do |hike|
-        region_of_hike = WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip)
-        attributes = {
-          :name => hike.css(".item-header span").text.split(" - ")[0].strip,
-          :region => region_of_hike,
-          :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.strip,
-          :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip,
-          :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
-          :url => hike.css(".item-header a.listitem-title").attribute("href").value.strip
-        }
-        new_hike = self.new(attributes)
-        region_of_hike.hikes << new_hike
-      end
-    end
+    hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
+    hikes.each do |hike| 
+      hike[:region] = WashingtonHikes::Region.find_or_create_region_by_name(hike[:region])
+      new_hike = self.new(hike)
+      new_hike.region.hikes << new_hike
+    end  
   end
 
   def self.all

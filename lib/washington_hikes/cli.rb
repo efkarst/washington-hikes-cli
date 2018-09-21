@@ -4,7 +4,7 @@ class WashingtonHikes::CLI
 
   def start
     puts "\n\nWelcome to Washington Hikes!"
-    puts "\n\nFinding the best hikes across Washington..."
+    puts "\n\nFinding top rated hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
     welcome
   end
