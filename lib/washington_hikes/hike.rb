@@ -11,11 +11,7 @@ class WashingtonHikes::Hike
 
   def self.create_from_wta
     hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
-    hikes.each do |hike| 
-      hike[:region] = WashingtonHikes::Region.find_or_create_region_by_name(hike[:region])
-      new_hike = self.new(hike)
-      new_hike.region.hikes << new_hike
-    end  
+    hikes.each {|hike| self.new(hike) }  
   end
 
   def self.all
@@ -25,10 +21,16 @@ class WashingtonHikes::Hike
   def self.list_all_hikes
     hike_by_displayed_number = {}
     self.all.each.with_index(1) do |hike,i|
-      puts "#{i}. #{hike.name} -- #{hike.length} -- #{hike.elevation_gain}"
+      puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"
       hike_by_displayed_number[i] = hike
     end
     hike_by_displayed_number
+  end
+
+  def region=(region)
+    @region = region
+    @region.add_hike(self)
+    @region
   end
 
   def add_hike_details

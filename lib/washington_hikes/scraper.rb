@@ -16,7 +16,7 @@ class WashingtonHikes::Scraper
       page_of_hikes.each do |hike|
         hike_attributes = {
           :name => hike.css(".item-header span").text.split(" - ")[0].strip,
-          :region => hike.css(".item-header h3.region").text.split(" -- ")[0].strip,
+          :region => WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip),
           :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.split("")[0].strip.to_i,
           :type => hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
           :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i,
