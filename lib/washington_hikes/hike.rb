@@ -1,7 +1,7 @@
 require 'pry'
 
 class WashingtonHikes::Hike
-  attr_accessor :name, :length, :elevation_gain, :region, :description, :url, :rating, :features
+  attr_accessor :name, :length, :type, :elevation_gain, :region, :description, :url, :rating, :features
   @@all = []
 
   def initialize(attributes)
@@ -41,7 +41,7 @@ class WashingtonHikes::Hike
     puts "\n----------------------------"
     puts "\n#{self.name}"
     puts "Region: #{self.region.name}"
-    puts "Length: #{self.length}"
+    puts "Length: #{self.length} miles, #{self.type}"
     puts "Elevation Gain: #{self.elevation_gain}"
     puts "Rating: #{self.rating} / 5"
     puts "Features: #{self.features.join(", ")}"

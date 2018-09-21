@@ -17,8 +17,9 @@ class WashingtonHikes::Scraper
         hike_attributes = {
           :name => hike.css(".item-header span").text.split(" - ")[0].strip,
           :region => hike.css(".item-header h3.region").text.split(" -- ")[0].strip,
-          :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.strip,
-          :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip,
+          :length => hike.css(".hike-detail .hike-stats .hike-length span").children.text.split("")[0].strip.to_i,
+          :type => hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
+          :elevation_gain => hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i,
           :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
           :url => hike.css(".item-header a.listitem-title").attribute("href").value.strip
         }
