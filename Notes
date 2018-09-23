@@ -1,6 +1,3 @@
-ToDo:
-- format CLI
-
 Description:
 
 WashingtonHikesCLI will be a command-line app to allow a user to find a hike in a specified region of Washington state, and potentially filter available hikes based on additional properties such as hike length and elevation gain.  When the user runs the app, they will see a greeting and be able to type a number corresponding to one of the following actions: choose the region they would like to look in, see all hikes, or exit the app.   Hikes will be scraped from wta.org based on filter criteria. 
