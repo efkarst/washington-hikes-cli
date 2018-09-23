@@ -102,7 +102,7 @@ class WashingtonHikes::CLI
     puts "Length: #{hike.length} miles, #{hike.type}"
     puts "Elevation Gain: #{hike.elevation_gain}"
     puts "Rating: #{hike.rating} / 5"
-    puts "Features: #{hike.most_common_features.join(", ")}"
+    puts "Features: #{hike.features.join(", ")}"
     puts ""
     puts "#{hike.description}"
     puts "\n----------------------------\n \n"

@@ -6,9 +6,9 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_list
-    number_of_pages = 2
-    hikes = []
-    page_index = 0
+    number_of_pages = 2   # Number of WTA pages to scrape (they always show 30 hikes / page)
+    hikes = []            # Create an empty erray to shovel hikes into
+    page_index = 0      # 1st hike in WTA list that will be scaped - feeds into URL
 
     # Iterate through the number of hike pages you wish to scrape
     number_of_pages.times do 
@@ -30,14 +30,19 @@ class WashingtonHikes::Scraper
         hikes << hike_attributes
       end
 
-      page_index += 30 #update url index -- wta always shows 30 hikes / page
+      # Update URL index -- WTA always shows 30 hikes / page, starting with page_index
+      page_index += 30
     end
 
-    hikes #return an array of hike hashes
+    # Return an array of hashes, each containing attributes for a scraped hike
+    hikes
   end
 
   def self.scrape_wta_hike_description(url)
-    details = get_page(url).css("#hike-wrapper")
-    {description: details.css("#hike-body-text p").size == 0 ? "" : details.css("#hike-body-text p")[0].text}
+    #details = get_page(url).css("#hike-wrapper")
+    #{description: details.css("#hike-body-text p").size == 0 ? "" : details.css("#hike-body-text p")[0].text}
+
+    scraped_description = get_page(url).css("#hike-wrapper #hike-body-text p")
+    {description: scraped_description.size == 0 ? "" : scraped_description[0].text}
   end
 end

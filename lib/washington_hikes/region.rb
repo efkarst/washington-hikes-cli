@@ -22,7 +22,7 @@ class WashingtonHikes::Region
     @hikes << hike
   end
 
-  def landscape
+  def top_landscape_features
     feature_list = {}
     @hikes.each do |hike|
       hike.features.each do |feature|
