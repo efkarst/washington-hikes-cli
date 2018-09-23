@@ -23,7 +23,6 @@ class WashingtonHikes::Scraper
           :length => hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[0].split(" ")[0].to_i,
           :type => hike.css(".hike-detail .hike-stats .hike-gain").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i,
           :elevation_gain => hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
-          :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
           :url => hike.css(".item-header a.listitem-title").attribute("href").value.strip
         }
         hikes << hike_attributes
@@ -34,13 +33,13 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_details(url)
-    # Scrape details
-    scraped_details = get_page(url).css("#hike-wrapper")
-    feature_list = scrape_wta_hike_features(scraped_details)
-    description_text = scrape_wta_hike_description(scraped_details)
+    scraped_hike_details = get_page(url).css("#hike-wrapper")
 
-    # Return features and description
-    {:features => feature_list, :description => description_text}
+    hike_details = {
+      :features => scrape_wta_hike_features(scraped_hike_details),
+      :description => scraped_hike_details.css("#hike-body-text p").size == 0 ? "" : scraped_hike_details.css("#hike-body-text p")[0].text,
+      :rating => scraped_hike_details.css("#hike-top #hike-stats #hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0]
+    }
   end
 
   def self.scrape_wta_hike_features(scraped_details)
@@ -56,11 +55,4 @@ class WashingtonHikes::Scraper
     feature_list
   end
 
-  def self.scrape_wta_hike_description(scraped_details)
-    # Extract hike description
-    description_text = ""
-    scraped_description = scraped_details.css("#hike-body-text p")
-    description_text = scraped_description[0].text if scraped_description.size != 0
-    description_text
-  end
 end
