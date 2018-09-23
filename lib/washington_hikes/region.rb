@@ -2,26 +2,30 @@ class WashingtonHikes::Region
   attr_accessor :name, :hikes
   @@all = []
   
+  # Initializes a region with a name and hikes array
   def initialize(name)
     @name = name
     @hikes = []
-    @features = []
     @@all << self
   end
 
+  # Find or create a new region by name
   def self.find_or_create_region_by_name(name)
     existing = self.all.detect{|region| region.name == name}
     existing != nil ? existing : self.new(name)
   end
 
+  # All regions in class
   def self.all
     @@all
   end
 
+  # Add hike to region's 'hikes' array
   def add_hike(hike)
     @hikes << hike
   end
 
+  # Identifies th emost common landcape features in a region based on hike features
   def top_landscape_features
     feature_list = {}
     @hikes.each do |hike|
@@ -39,7 +43,7 @@ class WashingtonHikes::Region
   end
 
   def average_hike_rating
-    ratings = @hikes.collect {|hike| hike.rating}
-    (ratings.sum / ratings.size).round(2)
+    ratings = @hikes.collect {|hike| hike.rating}   # Collect ratings of hikes in region
+    (ratings.sum / ratings.size).round(2)           # Return the average rating of hikes in region
   end
 end
