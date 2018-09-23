@@ -7,9 +7,6 @@ class WashingtonHikes::Hike
   def initialize(attributes)
     attributes.each {|key, value| self.send(("#{key}="), value)}
     @region.add_hike(self)
-   # binding.pry
-    #@region.add_features(@features) if @features != nil
-
     @@all << self
   end
 

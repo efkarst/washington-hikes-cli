@@ -39,10 +39,10 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_description(url)
-    #details = get_page(url).css("#hike-wrapper")
-    #{description: details.css("#hike-body-text p").size == 0 ? "" : details.css("#hike-body-text p")[0].text}
+    # Scrape description from hike detail page
+    scraped_details = get_page(url).css("#hike-wrapper")
 
-    scraped_description = get_page(url).css("#hike-wrapper #hike-body-text p")
-    {description: scraped_description.size == 0 ? "" : scraped_description[0].text}
+    # Return a hash with the desired details 
+    {description: scraped_details.css("#hike-body-text p").size == 0 ? "" : scraped_details.css("#hike-body-text p")[0].text}
   end
 end
