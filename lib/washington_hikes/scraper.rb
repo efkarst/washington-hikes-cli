@@ -23,7 +23,7 @@ class WashingtonHikes::Scraper
           url:    hike.css(".item-header a.listitem-title").attribute("href").value.strip,
           length: hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[0].split(" ")[0].to_i,
           type:   hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
-          rating: hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0],
+          rating: hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0].to_f,
           features: hike.css(".hike-detail .hike-stats .trip-features").size == 0 ? [] : hike.css(".hike-detail .hike-stats .trip-features")[0].children.css("img").collect{|feature| feature.attribute("title").value},
           elevation_gain: hike.css(".hike-detail .hike-stats .hike-gain").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i
         }

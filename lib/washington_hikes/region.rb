@@ -22,23 +22,24 @@ class WashingtonHikes::Region
     @hikes << hike
   end
 
-  def features
-    feature_list = []
-   # binding.pry
+  def landscape
+    feature_list = {}
     @hikes.each do |hike|
-      feature_list << hike.features
-   # binding.pry
-    #  hike.features.each do |feature|
-     #   feature_list << feature if feature_list.include?(feature) == false
-      #end
+      hike.features.each do |feature|
+        feature_list[feature] == nil ? feature_list[feature] = 1 : feature_list[feature] += 1
+      end
     end
-    feature_list.flatten.uniq
-    #binding.pry
-    #Eif hike.features != nil
-     # hike.features.each do |feature|
-     #   @features << feature if @features.detect{|feat| feat == feature}
-      #end
-    #end
-    #binding.pry
+    
+    common_features = []
+    not_landscape = ["Dogs allowed on leash", "Dogs not allowed", "Established campsites", "Good for kids", "Fall foliage"]
+    feature_list.sort_by{|feature,count| count}.reverse.each do |feature| 
+      common_features << feature[0] if not_landscape.include?(feature[0]) == false
+    end
+    common_features[0..4]
+  end
+
+  def average_hike_rating
+    ratings = @hikes.collect {|hike| hike.rating}
+    (ratings.sum / ratings.size).round(2)
   end
 end

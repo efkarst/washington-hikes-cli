@@ -10,6 +10,7 @@ class WashingtonHikes::CLI
     welcome
   end
 
+
   def welcome
     puts "\n\nWhat would you like to do?"
     puts "1. Find the most popular hikes in a specific region of Washington"
@@ -31,6 +32,7 @@ class WashingtonHikes::CLI
     end
   end
 
+
   def choose_region
     puts "\n\nHere are the regions you can choose from:\n "
     regions = WashingtonHikes::Region.all
@@ -50,11 +52,15 @@ class WashingtonHikes::CLI
     end
   end
 
+
   def list_regions(regions)
     regions.each.with_index(1) do |region,i| 
-      puts "#{i}. #{region.name} -- #{region.features.join(", ")}\n "
+      puts "#{i}. #{region.name}"
+      puts "   Landscape: #{region.landscape.join(", ")}"
+      puts "   Average Hike Rating: #{region.average_hike_rating}\n "
     end
   end
+
 
   def choose_hike
     if @region == "all"
@@ -82,9 +88,11 @@ class WashingtonHikes::CLI
     what_next?
   end
 
+
   def list_hikes(hikes)
     hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
   end
+
 
   def list_hike_details(hike)
     hike.add_hike_details
@@ -94,11 +102,12 @@ class WashingtonHikes::CLI
     puts "Length: #{hike.length} miles, #{hike.type}"
     puts "Elevation Gain: #{hike.elevation_gain}"
     puts "Rating: #{hike.rating} / 5"
-    puts "Features: #{hike.features.join(", ")}"
+    puts "Features: #{hike.most_common_features.join(", ")}"
     puts ""
     puts "#{hike.description}"
     puts "\n----------------------------\n \n"
   end
+
 
   def what_next?
     # do i need separate paths for users who choose to brose by region vs. brose all? probably
