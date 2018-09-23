@@ -25,23 +25,25 @@ class WashingtonHikes::Region
     @hikes << hike
   end
 
-  # Identifies th emost common landcape features in a region based on hike features
-  def top_landscape_features
+  # Identifies the most common landcape features in a region based on hike features
+  def common_landscape_features
+    # Collect count of each landscape feature from hikes in region
     feature_list = {}
+    not_landscape = ["Dogs allowed on leash", "Dogs not allowed", "Established campsites", "Good for kids", "Fall foliage"]
+
     @hikes.each do |hike|
       hike.features.each do |feature|
-        feature_list[feature] == nil ? feature_list[feature] = 1 : feature_list[feature] += 1
+        if not_landscape.include?(feature) == false
+          feature_list[feature] == nil ? feature_list[feature] = 1 : feature_list[feature] += 1
+        end
       end
     end
-    
-    common_features = []
-    not_landscape = ["Dogs allowed on leash", "Dogs not allowed", "Established campsites", "Good for kids", "Fall foliage"]
-    feature_list.sort_by{|feature,count| count}.reverse.each do |feature| 
-      common_features << feature[0] if not_landscape.include?(feature[0]) == false
-    end
-    common_features[0..4]
+
+    # Sort feature list by most common and return the top 5 landscape features
+    feature_list.sort_by{|feature,count| count}.reverse.flatten.delete_if{|x| x.is_a?(Integer)}[0..4]
   end
 
+  # Calculates the average rating of popular hikes in the region
   def average_hike_rating
     ratings = @hikes.collect {|hike| hike.rating}   # Collect ratings of hikes in region
     (ratings.sum / ratings.size).round(2)           # Return the average rating of hikes in region
