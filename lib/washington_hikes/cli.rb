@@ -1,11 +1,12 @@
 # Command Line Interface for Washington Hikes CLI App
 class WashingtonHikes::CLI
-  attr_accessor :region, :hike_list_scope
+  attr_accessor :region, :filters
 
   def start
     puts "\n\nWelcome to Washington Hikes!"
     puts "\n\nFinding the most popular hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
+    @filters = {}
     welcome
   end
 
@@ -22,7 +23,6 @@ class WashingtonHikes::CLI
     when "1"
       choose_region
     when "2"
-      @hike_list_scope = "all"
       choose_hike
     when "3"
       exit
@@ -36,15 +36,15 @@ class WashingtonHikes::CLI
     regions = WashingtonHikes::Region.all
 
     list_regions(regions)
-    puts "\nChoose a region by typing the corresponding number, or type 'menu' to get to the main menu."
 
+    puts "\nChoose a region by typing the corresponding number, or type 'menu' to get to the main menu."
     input = gets.chomp
 
     if input == "menu"
       welcome
     elsif input.to_i.between?(1, regions.size)
       @region = regions[input.to_i - 1]
-      @hike_list_scope = "region"
+      @filters["region"] = @region.name
       choose_hike
     else
       choose_region
@@ -56,13 +56,15 @@ class WashingtonHikes::CLI
   end
 
   def choose_hike
-    if @hike_list_scope == "all"
-      puts "\n\nHere are the most popular hikes in Washington:\n "
-      hikes = WashingtonHikes::Hike.all
-    elsif @hike_list_scope == "region"
+    if @filters.keys.include?("region")
       puts "\n\nHere are the most popular hikes in the #{@region.name}:\n "
       hikes = @region.hikes
+    else
+      puts "\n\nHere are the most popular hikes in Washington:\n "
+      hikes = WashingtonHikes::Hike.all
     end
+
+    #@filters == [] ? hikes = WashingtonHikes::Hike.all : hikes = WashingtonHikes::Hike.filtered_hike_list(@filters)
 
     list_hikes(hikes)
 
@@ -112,10 +114,12 @@ class WashingtonHikes::CLI
   
       case input
       when "1"
-        @hike_list_scope = "region"
+        #@hike_list_scope = "region"
+        @filters["region"] = @region.name
         choose_hike
       when "2"
-        @hike_list_scope = "all"
+        #@hike_list_scope = "all"
+        @filters.delete("region")
         choose_hike
       when "3"
         choose_region
