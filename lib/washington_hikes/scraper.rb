@@ -6,7 +6,7 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_list
-    number_of_pages = 2   # Number of WTA pages to scrape (they always show 30 hikes / page)
+    number_of_pages = 3   # Number of WTA pages to scrape (they always show 30 hikes / page)
     hikes = []            # Create an empty erray to shovel hikes into
     page_index = 0      # 1st hike in WTA list that will be scaped - feeds into URL
 

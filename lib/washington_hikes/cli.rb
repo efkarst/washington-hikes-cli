@@ -112,8 +112,8 @@ class WashingtonHikes::CLI
   def what_next?
     # do i need separate paths for users who choose to brose by region vs. brose all? probably
     puts "\n\nWhat would you like to do next?\n "
-      puts "1. See more popular hikes in this region."
-      puts "2. See popular hikes across Washington."
+      puts "1. See more hikes in this region."
+      puts "2. See all hikes."
       puts "3. Choose a different region."
       puts "4. Exit the app.\n "
       puts "Type '1', '2', '3' or '4' to choose."
