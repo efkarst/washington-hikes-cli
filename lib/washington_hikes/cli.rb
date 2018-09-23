@@ -16,7 +16,6 @@ class WashingtonHikes::CLI
     puts "3. Exit the app.\n "
     puts "Type '1', '2', or '3' to choose."
 
-
     input = gets.chomp
 
     case input
@@ -34,15 +33,17 @@ class WashingtonHikes::CLI
 
   def choose_region
     puts "\n\nHere are the regions you can choose from:\n "
-    region_list = WashingtonHikes::Region.list_regions
+    regions = WashingtonHikes::Region.all
+
+    list_regions(regions)
     puts "\nChoose a region by typing the corresponding number, or type 'menu' to get to the main menu."
 
     input = gets.chomp
 
     if input == "menu"
       welcome
-    elsif input.to_i.between?(1,region_list.size)
-      @region = region_list[input.to_i]
+    elsif input.to_i.between?(1, regions.size)
+      @region = regions[input.to_i - 1]
       @hike_list_scope = "region"
       choose_hike
     else
@@ -50,12 +51,16 @@ class WashingtonHikes::CLI
     end
   end
 
+  def list_regions(regions)
+    regions.each.with_index(1) {|region,i| puts "#{i}. #{region.name}"}
+  end
+
   def choose_hike
     if @hike_list_scope == "all"
       puts "\n\nHere are the most popular hikes in Washington:\n "
       hikes = WashingtonHikes::Hike.all
     elsif @hike_list_scope == "region"
-      puts "\n\nHere are the most popular hikes in the #{@region}:\n "
+      puts "\n\nHere are the most popular hikes in the #{@region.name}:\n "
       hikes = @region.hikes
     end
 
@@ -63,13 +68,12 @@ class WashingtonHikes::CLI
 
     puts "\nChoose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
     input = gets.chomp
-    
+
     if input == "menu"
       welcome
-    elsif input.to_i.between?(1,hikes.size)
-      hike = hikes[input.to_i-1]
-      list_hike_details(hike)
-      @region = hike.region
+    elsif input.to_i.between?(1, hikes.size)
+      list_hike_details(hikes[input.to_i - 1])
+      @region = hikes[input.to_i - 1].region
     else
       choose_hike
     end
@@ -100,7 +104,7 @@ class WashingtonHikes::CLI
     puts "\n\nWhat would you like to do next?\n "
       puts "1. See more popular hikes in this region."
       puts "2. See popular hikes across Washington."
-      puts "3. Choose a region."
+      puts "3. Choose a different region."
       puts "4. Exit the app.\n "
       puts "Type '1', '2', '3' or '4' to choose."
   

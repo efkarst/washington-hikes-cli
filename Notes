@@ -3,8 +3,6 @@ ToDo:
 - refactor any code
 - describe region features
 - if i show more hikes I need to limit the list to 10 hikes at a time
-- refactor how i am getting user input?
-- refactor list methods into CLI? e.g. one "list hikes" method w/ array input
 - make input handlign more robust
 
 Description:

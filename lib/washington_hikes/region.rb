@@ -17,15 +17,6 @@ class WashingtonHikes::Region
     @@all
   end
 
-  def self.list_regions
-    region_by_displayed_number = {}
-    self.all.each.with_index(1) do |region,i| 
-      puts "#{i}. #{region.name}"
-      region_by_displayed_number[i] = region
-    end
-    region_by_displayed_number
-  end
-
   def add_hike(hike)
     @hikes << hike
   end
