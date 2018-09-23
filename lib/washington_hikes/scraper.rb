@@ -9,7 +9,7 @@ class WashingtonHikes::Scraper
     number_of_pages = 2
     hikes = []
     page_index = 0
-    
+
     # Iterate through the number of hike pages you wish to scrape
     number_of_pages.times do 
       url = "https://www.wta.org/go-outside/hikes?b_start:int=#{page_index}"
@@ -26,9 +26,11 @@ class WashingtonHikes::Scraper
           elevation_gain: hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip
         }
         hikes << hike_attributes
-      end      
+      end
+
       page_index += 30 #update url index -- wta always shows 30 hikes / page
     end
+
     hikes #return an array of hike hashes
   end
 
@@ -41,9 +43,4 @@ class WashingtonHikes::Scraper
       rating: details.css("#hike-top #hike-stats #hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0]
     }
   end
-
-#  def self.scrape_wta_hike_features(scraped_details)
-#    scraped_details.css("#hike-top #hike-features .feature") != nil ? scraped_details.css("#hike-top #hike-features .feature").collect.with_index {|feature,i| scraped_feature_list[i].attribute("data-title").value} : []
-#  end
-
 end

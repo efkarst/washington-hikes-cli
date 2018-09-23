@@ -1,12 +1,11 @@
 ToDo:
-- update URL to top rated
-- refactor rating to be pulled from page details?
 - in CLI, is hike_list_scope the best? how cna I make it more extensible? does it need to be function that takes in "filters" in an array or somethign?
 - refactor any code
 - describe region features
 - if i show more hikes I need to limit the list to 10 hikes at a time
 - refactor how i am getting user input?
 - refactor list methods into CLI? e.g. one "list hikes" method w/ array input
+- make input handlign more robust
 
 Description:
 

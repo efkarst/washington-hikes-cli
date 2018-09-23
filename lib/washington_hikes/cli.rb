@@ -53,27 +53,46 @@ class WashingtonHikes::CLI
   def choose_hike
     if @hike_list_scope == "all"
       puts "\n\nHere are the most popular hikes in Washington:\n "
-      hike_list = WashingtonHikes::Hike.list_all_hikes
+      hikes = WashingtonHikes::Hike.all
     elsif @hike_list_scope == "region"
       puts "\n\nHere are the most popular hikes in the #{@region}:\n "
-      hike_list = @region.list_hikes_from_region
+      hikes = @region.hikes
     end
 
-    puts "\nChoose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
+    list_hikes(hikes)
 
+    puts "\nChoose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
     input = gets.chomp
     
     if input == "menu"
       welcome
-    elsif input.to_i.between?(1,hike_list.size)
-      hike = hike_list[input.to_i]
-      hike.list_hike_details
+    elsif input.to_i.between?(1,hikes.size)
+      hike = hikes[input.to_i-1]
+      list_hike_details(hike)
       @region = hike.region
     else
       choose_hike
     end
 
     what_next?
+  end
+
+  def list_hikes(hikes)
+    hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
+  end
+
+  def list_hike_details(hike)
+    hike.add_hike_details
+    puts "\n----------------------------"
+    puts "\n#{hike.name}"
+    puts "Region: #{hike.region.name}"
+    puts "Length: #{hike.length} miles, #{hike.type}"
+    puts "Elevation Gain: #{hike.elevation_gain}"
+    puts "Rating: #{hike.rating} / 5"
+    puts "Features: #{hike.features.join(", ")}"
+    puts ""
+    puts "#{hike.description}"
+    puts "\n----------------------------\n \n"
   end
 
   def what_next?
