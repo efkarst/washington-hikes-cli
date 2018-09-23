@@ -2,6 +2,8 @@
 class WashingtonHikes::CLI
   attr_accessor :region
 
+
+
   def start
     puts "\n\nWelcome to Washington Hikes!"
     puts "\n\nFinding the most popular hikes across Washington..."
@@ -11,10 +13,12 @@ class WashingtonHikes::CLI
   end
 
 
+
+  # Determine if the user wants to find hikes in a region or browse hikes across Washington
   def welcome
     puts "\n\nWhat would you like to do?"
     puts "1. Find the most popular hikes in a specific region of Washington"
-    puts "2. Browse the most popular hikes across all of Washington"
+    puts "2. Browse the most popular hikes across Washington"
     puts "3. Exit the app.\n "
     puts "Type '1', '2', or '3' to choose."
 
@@ -33,26 +37,29 @@ class WashingtonHikes::CLI
   end
 
 
+
+  # Prompts user to choose a region from a list of regions
   def choose_region
     puts "\n\nHere are the regions you can choose from:\n "
-    regions = WashingtonHikes::Region.all
+    regions = WashingtonHikes::Region.all # Get list of regions
+    list_regions(regions)                 # Display list of regions
 
-    list_regions(regions)
-
-    puts "\nChoose a region by typing the corresponding number, or type 'menu' to get to the main menu."
+    puts "\nChoose a region by typing the corresponding number, or type 'menu' to go to the main menu."
     input = gets.chomp
 
-    if input == "menu"
+    if input == "menu"                            # Returns user to main menu
       welcome
-    elsif input.to_i.between?(1, regions.size)
+    elsif input.to_i.between?(1, regions.size)    # ID user-selected region and lets them choose a hike
       @region = regions[input.to_i - 1]
       choose_hike
-    else
+    else                                          # If input isn't recognized, have user choose a region again
       choose_region
     end
   end
 
 
+
+  # Lists regions 
   def list_regions(regions)
     regions.each.with_index(1) do |region,i| 
       puts "#{i}. #{region.name}"
@@ -62,7 +69,10 @@ class WashingtonHikes::CLI
   end
 
 
+
+  # Prompts users to choose a hike from a list of hikes
   def choose_hike
+    # Gather list of hikes - either all hikes, or hikes in a specific region
     if @region == "all"
       puts "\n\nHere are the most popular hikes in Washington:\n "
       hikes = WashingtonHikes::Hike.all
@@ -71,29 +81,34 @@ class WashingtonHikes::CLI
       hikes = @region.hikes
     end
 
+    # Lists hikes in designated region
     list_hikes(hikes)
 
-    puts "\nChoose a hike by typing the corresponding number, or type 'menu' to get to the main menu."
+    puts "\nChoose a hike by typing the corresponding number, or type 'menu' to go to the main menu."
     input = gets.chomp
 
-    if input == "menu"
+    if input == "menu"                            # Returns user to main menu
       welcome
-    elsif input.to_i.between?(1, hikes.size)
+    elsif input.to_i.between?(1, hikes.size)      # ID user-selected hike and show them hike details
       list_hike_details(hikes[input.to_i - 1])
       @region = hikes[input.to_i - 1].region
-    else
+    else                                          # If input isn't recognized, have user choose hike again
       choose_hike
     end
 
-    what_next?
+    what_next?  # Prompt user to take another action after seeing hike details
   end
 
 
+
+  # Lists hikes in selected region
   def list_hikes(hikes)
     hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
   end
 
 
+
+  # Lists details for selected hike
   def list_hike_details(hike)
     hike.add_hike_details
     puts "\n\n----------------------------"
@@ -109,30 +124,31 @@ class WashingtonHikes::CLI
   end
 
 
+
+  # Prompts user to take another action after seeing hike details
   def what_next?
-    # do i need separate paths for users who choose to brose by region vs. brose all? probably
     puts "\n\nWhat would you like to do next?\n "
-      puts "1. See more hikes in this region."
-      puts "2. See all hikes."
-      puts "3. Choose a different region."
-      puts "4. Exit the app.\n "
-      puts "Type '1', '2', '3' or '4' to choose."
+    puts "1. See more popular hikes in this region."
+    puts "2. See popular hikes across Washington."
+    puts "3. Choose a different region."
+    puts "4. Exit the app.\n "
+    puts "Type '1', '2', '3' or '4' to choose."
+
+    input = gets.chomp
   
-      input = gets.chomp
-  
-      case input
-      when "1"
-        choose_hike
-      when "2"
-        @region = "all"
-        choose_hike
-      when "3"
-        choose_region
-      when "4"
-        exit
-      else
-        what_next?
-      end
+    case input
+    when "1"
+      choose_hike      # User can choose a hike from the region the current hike is in
+    when "2"
+      @region = "all"  # User can choose a hike from all hikes
+      choose_hike
+    when "3"
+      choose_region    # User can choose a new region to brose
+    when "4"
+      exit             # Exit the app
+    else
+      what_next?       # If input isn't recognized, prompt user again
+    end
   end
 
 end
