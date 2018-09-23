@@ -1,12 +1,12 @@
 # Command Line Interface for Washington Hikes CLI App
 class WashingtonHikes::CLI
-  attr_accessor :region, :filters
+  attr_accessor :region
 
   def start
     puts "\n\nWelcome to Washington Hikes!"
     puts "\n\nFinding the most popular hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
-    @filters = {}
+    @region = "all"
     welcome
   end
 
@@ -44,7 +44,6 @@ class WashingtonHikes::CLI
       welcome
     elsif input.to_i.between?(1, regions.size)
       @region = regions[input.to_i - 1]
-      @filters["region"] = @region.name
       choose_hike
     else
       choose_region
@@ -56,15 +55,13 @@ class WashingtonHikes::CLI
   end
 
   def choose_hike
-    if @filters.keys.include?("region")
-      puts "\n\nHere are the most popular hikes in the #{@region.name}:\n "
-      hikes = @region.hikes
-    else
+    if @region == "all"
       puts "\n\nHere are the most popular hikes in Washington:\n "
       hikes = WashingtonHikes::Hike.all
+    else
+      puts "\n\nHere are the most popular hikes in the #{@region.name}:\n "
+      hikes = @region.hikes
     end
-
-    #@filters == [] ? hikes = WashingtonHikes::Hike.all : hikes = WashingtonHikes::Hike.filtered_hike_list(@filters)
 
     list_hikes(hikes)
 
@@ -89,7 +86,7 @@ class WashingtonHikes::CLI
 
   def list_hike_details(hike)
     hike.add_hike_details
-    puts "\n----------------------------"
+    puts "\n\n----------------------------"
     puts "\n#{hike.name}"
     puts "Region: #{hike.region.name}"
     puts "Length: #{hike.length} miles, #{hike.type}"
@@ -114,12 +111,9 @@ class WashingtonHikes::CLI
   
       case input
       when "1"
-        #@hike_list_scope = "region"
-        @filters["region"] = @region.name
         choose_hike
       when "2"
-        #@hike_list_scope = "all"
-        @filters.delete("region")
+        @region = "all"
         choose_hike
       when "3"
         choose_region
