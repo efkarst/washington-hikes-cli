@@ -1,11 +1,8 @@
-# Command Line Interface for Washington Hikes CLI App
 class WashingtonHikes::CLI
   attr_accessor :region
-
-
-
+  
   def start
-    puts "\n\nWelcome to Washington Hikes!"
+    puts "\n\nWelcome to Washington Hikes!".green
     puts "\n\nFinding the most popular hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
     @region = "all"
@@ -16,7 +13,7 @@ class WashingtonHikes::CLI
 
   # Determine if the user wants to find hikes in a region or browse hikes across Washington
   def welcome
-    puts "\n\nWhat would you like to do?"
+    puts "\n\nWhat would you like to do?".green
     puts "1. Find the most popular hikes in a specific region of Washington"
     puts "2. Browse the most popular hikes across Washington"
     puts "3. Exit the app.\n "
@@ -62,9 +59,9 @@ class WashingtonHikes::CLI
   # Lists regions 
   def list_regions(regions)
     regions.each.with_index(1) do |region,i| 
-      puts "#{i}. #{region.name}"
-      puts "   Landscape: #{region.common_landscape_features.join(", ")}"
-      puts "   Average Hike Rating: #{region.average_hike_rating}\n "
+      puts "#{i}. #{region.name}".green
+      puts "   Landscape: #{region.common_landscape_features.join(", ")}".gray
+      puts "   Average Hike Rating: #{region.average_hike_rating}\n ".gray
     end
   end
 
@@ -74,10 +71,10 @@ class WashingtonHikes::CLI
   def choose_hike
     # Gather list of hikes - either all hikes, or hikes in a specific region
     if @region == "all"
-      puts "\n\nHere are the most popular hikes in Washington:\n "
+      puts "\n\nHere are the most popular hikes in Washington:\n ".bold
       hikes = WashingtonHikes::Hike.all
     else
-      puts "\n\nHere are the most popular hikes in the #{@region.name}:\n "
+      puts "\n\nHere are the most popular hikes in the #{@region.name}:\n ".bold
       hikes = @region.hikes
     end
 
@@ -103,7 +100,7 @@ class WashingtonHikes::CLI
 
   # Lists hikes in selected region
   def list_hikes(hikes)
-    hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
+    hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name.green} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
   end
 
 
@@ -112,7 +109,7 @@ class WashingtonHikes::CLI
   def list_hike_details(hike)
     hike.add_hike_details
     puts "\n\n----------------------------"
-    puts "\n#{hike.name}"
+    puts "\n#{hike.name}".green
     puts "Region: #{hike.region.name}"
     puts "Length: #{hike.length} miles, #{hike.type}"
     puts "Elevation Gain: #{hike.elevation_gain}"
@@ -150,5 +147,4 @@ class WashingtonHikes::CLI
       what_next?       # If input isn't recognized, prompt user again
     end
   end
-
 end
