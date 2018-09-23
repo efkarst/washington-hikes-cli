@@ -6,14 +6,16 @@ class WashingtonHikes::Scraper
   end
 
   def self.scrape_wta_hike_list
-    # Grab the first n pages of hikes
     number_of_pages = 2
     hikes = []
     page_index = 0
+    
+    # Iterate through the number of hike pages you wish to scrape
     number_of_pages.times do 
-      #url = "https://www.wta.org/go-outside/hikes?b_start:int=#{page_index}"
-      url = "https://www.wta.org/go-outside/hikes/hike_search?sort=rating&rating=0&mileage:float:list=0.0&mileage:float:list=25.0&show_incomplete=on&region=all&title=&searchabletext=&filter=Search&subregion=all&b_start:int=#{page_index}&elevationgain:int:list=0&elevationgain:int:list=5000&highpoint="
+      url = "https://www.wta.org/go-outside/hikes?b_start:int=#{page_index}"
       page_of_hikes =  get_page(url).css("div#search-result-listing .search-result-item")
+
+      # Collect a hash of hike attributes for each hike on a page
       page_of_hikes.each do |hike|
         hike_attributes = {
           :name => hike.css(".item-header span").text.split(" - ")[0].strip,
@@ -26,9 +28,9 @@ class WashingtonHikes::Scraper
         }
         hikes << hike_attributes
       end      
-      page_index += 30
+      page_index += 30 #update url index -- wta always shows 30 hikes / page
     end
-    hikes
+    hikes #return an array of hike hashes
   end
 
   def self.scrape_wta_hike_details(url)

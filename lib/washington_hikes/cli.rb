@@ -4,15 +4,15 @@ class WashingtonHikes::CLI
 
   def start
     puts "\n\nWelcome to Washington Hikes!"
-    puts "\n\nFinding top rated hikes across Washington..."
+    puts "\n\nFinding the most popular hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
     welcome
   end
 
   def welcome
     puts "\n\nWhat would you like to do?"
-    puts "1. Find top rated hikes in a specific region of Washington"
-    puts "2. Browse top rated across all of Washington"
+    puts "1. Find the most popular hikes in a specific region of Washington"
+    puts "2. Browse the most popular hikes across all of Washington"
     puts "3. Exit the app.\n "
     puts "Type '1', '2', or '3' to choose."
 
@@ -52,10 +52,10 @@ class WashingtonHikes::CLI
 
   def choose_hike
     if @hike_list_scope == "all"
-      puts "\n\nHere are the top rated hikes in Washington:\n "
+      puts "\n\nHere are the most popular hikes in Washington:\n "
       hike_list = WashingtonHikes::Hike.list_all_hikes
     elsif @hike_list_scope == "region"
-      puts "\n\nHere are the top rated hikes in the #{@region}:\n "
+      puts "\n\nHere are the most popular hikes in the #{@region}:\n "
       hike_list = @region.list_hikes_from_region
     end
 
@@ -79,8 +79,8 @@ class WashingtonHikes::CLI
   def what_next?
     # do i need separate paths for users who choose to brose by region vs. brose all? probably
     puts "\n\nWhat would you like to do next?\n "
-      puts "1. See more top rated hikes in this region."
-      puts "2. See top rated hikes across Washington."
+      puts "1. See more popular hikes in this region."
+      puts "2. See popular hikes across Washington."
       puts "3. Choose a region."
       puts "4. Exit the app.\n "
       puts "Type '1', '2', '3' or '4' to choose."
