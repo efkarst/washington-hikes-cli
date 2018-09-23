@@ -1,13 +1,3 @@
-
-
-
-MVP Washington Hikes:
-1. When the user runs the app, they will see a greeting and be able to: choose a region they would like to look in, see all hikes, or exit the app
-2. if they select all hikes they see a list of the top 30 hikes with the option to see more
-3. if they select region they will be able to choose a region to see hikes in, and then will see a list of fake hikes
-4. if they type exit they exit the program
-
-
 ToDo:
 - update URL to top rated
 - refactor rating to be pulled from page details?
@@ -15,6 +5,8 @@ ToDo:
 - refactor any code
 - describe region features
 - if i show more hikes I need to limit the list to 10 hikes at a time
+- refactor how i am getting user input?
+- refactor list methods into CLI? e.g. one "list hikes" method w/ array input
 
 Description:
 
