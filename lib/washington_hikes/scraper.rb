@@ -1,14 +1,15 @@
-require 'pry'
-
 class WashingtonHikes::Scraper
+  # Get HTML for a webpage
   def self.get_page(url)
     Nokogiri::HTML(open(url))
   end
 
+
+  # Scrape hike attributes from list of hikes on WTA
   def self.scrape_wta_hike_list
     number_of_pages = 2   # Number of WTA pages to scrape (they always show 30 hikes / page)
     hikes = []            # Create an empty erray to shovel hikes into
-    page_index = 0      # 1st hike in WTA list that will be scaped - feeds into URL
+    page_index = 0        # 1st hike in WTA list that will be scaped - feeds into URL
 
     # Iterate through the number of hike pages you wish to scrape
     number_of_pages.times do 
@@ -38,6 +39,8 @@ class WashingtonHikes::Scraper
     hikes
   end
 
+
+  # Scrape hike details from a hike's webpage
   def self.scrape_wta_hike_description(url)
     # Scrape description from hike detail page
     scraped_details = get_page(url).css("#hike-wrapper")
