@@ -6,6 +6,10 @@ class WashingtonHikes::Hike
 
   def initialize(attributes)
     attributes.each {|key, value| self.send(("#{key}="), value)}
+    @region.add_hike(self)
+   # binding.pry
+    #@region.add_features(@features) if @features != nil
+
     @@all << self
   end
 
@@ -18,14 +22,8 @@ class WashingtonHikes::Hike
     @@all
   end
 
-  def region=(region)
-    @region = region
-    @region.add_hike(self)
-    @region
-  end
-
   def add_hike_details
-    scraped_details = WashingtonHikes::Scraper.scrape_wta_hike_details(self.url)
+    scraped_details = WashingtonHikes::Scraper.scrape_wta_hike_description(self.url)
     scraped_details.each {|key, value| self.send(("#{key}="), value)}
   end
 end

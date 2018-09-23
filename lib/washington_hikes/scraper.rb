@@ -22,8 +22,10 @@ class WashingtonHikes::Scraper
           region: WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip),
           url:    hike.css(".item-header a.listitem-title").attribute("href").value.strip,
           length: hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[0].split(" ")[0].to_i,
-          type:   hike.css(".hike-detail .hike-stats .hike-gain").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i,
-          elevation_gain: hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip
+          type:   hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
+          rating: hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0],
+          features: hike.css(".hike-detail .hike-stats .trip-features").size == 0 ? [] : hike.css(".hike-detail .hike-stats .trip-features")[0].children.css("img").collect{|feature| feature.attribute("title").value},
+          elevation_gain: hike.css(".hike-detail .hike-stats .hike-gain").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i
         }
         hikes << hike_attributes
       end
@@ -34,13 +36,8 @@ class WashingtonHikes::Scraper
     hikes #return an array of hike hashes
   end
 
-  def self.scrape_wta_hike_details(url)
+  def self.scrape_wta_hike_description(url)
     details = get_page(url).css("#hike-wrapper")
-
-    {
-      features: details.css("#hike-top #hike-features .feature").size == 0 ? [] : details.css("#hike-top #hike-features .feature").collect.with_index {|feature,i| feature.attribute("data-title").value},
-      description: details.css("#hike-body-text p").size == 0 ? "" : details.css("#hike-body-text p")[0].text,
-      rating: details.css("#hike-top #hike-stats #hike-rating .Rating .AverageRating .star-rating .current-rating").text.split(" ")[0]
-    }
+    {description: details.css("#hike-body-text p").size == 0 ? "" : details.css("#hike-body-text p")[0].text}
   end
 end

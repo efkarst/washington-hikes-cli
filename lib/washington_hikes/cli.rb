@@ -51,7 +51,9 @@ class WashingtonHikes::CLI
   end
 
   def list_regions(regions)
-    regions.each.with_index(1) {|region,i| puts "#{i}. #{region.name}"}
+    regions.each.with_index(1) do |region,i| 
+      puts "#{i}. #{region.name} -- #{region.features.join(", ")}\n "
+    end
   end
 
   def choose_hike
