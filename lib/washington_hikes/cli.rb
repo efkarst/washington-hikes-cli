@@ -56,7 +56,7 @@ class WashingtonHikes::CLI
   def list_regions(regions)
     regions.each.with_index(1) do |region,i| 
       puts "#{i}. #{region.name}"
-      puts "   Landscape: #{region.landscape.join(", ")}"
+      puts "   Landscape: #{region.top_landscape_features.join(", ")}"
       puts "   Average Hike Rating: #{region.average_hike_rating}\n "
     end
   end
