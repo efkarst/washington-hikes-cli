@@ -15,28 +15,12 @@ class WashingtonHikes::Scraper
       url = "https://www.wta.org/go-outside/hikes/hike_search?sort=rating&rating=0&mileage:float:list=0.0&mileage:float:list=25.0&show_incomplete=on&region=all&title=&searchabletext=&filter=Search&subregion=all&b_start:int=#{page_index}&elevationgain:int:list=0&elevationgain:int:list=5000&highpoint="
       page_of_hikes =  get_page(url).css("div#search-result-listing .search-result-item")
       page_of_hikes.each do |hike|
-        
-        
-        # Check we get a hike length value
-        if hike.css(".hike-detail .hike-stats .hike-length").size == 0
-          hike_length = "length unknown"
-          hike_type = "type unknown"
-        else
-          hike_length = hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[0].split(" ")[0].to_i
-          hike_type = hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip          
-        end
-
-        # Check we get a hike gain value
-        hike_gain_exist = hike.css(".hike-detail .hike-stats .hike-gain")
-        hike_gain_exist.size == 0 ? hike_gain = "elevation gain unknown" : hike_gain = hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i
-
-        # Compile a hash of attributes
         hike_attributes = {
           :name => hike.css(".item-header span").text.split(" - ")[0].strip,
           :region => WashingtonHikes::Region.find_or_create_region_by_name(hike.css(".item-header h3.region").text.split(" -- ")[0].strip),
-          :length => hike_length,
-          :type => hike_type,
-          :elevation_gain => hike_gain,
+          :length => hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[0].split(" ")[0].to_i,
+          :type => hike.css(".hike-detail .hike-stats .hike-gain").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-gain span").children.text.strip.to_i,
+          :elevation_gain => hike.css(".hike-detail .hike-stats .hike-length").size == 0 ? "unknown" : hike.css(".hike-detail .hike-stats .hike-length span").children.text.split(",")[-1].strip,
           :rating => hike.css(".hike-detail .hike-stats .hike-rating .Rating .AverageRating .star-rating .current-rating").children.text.strip,
           :url => hike.css(".item-header a.listitem-title").attribute("href").value.strip
         }
@@ -46,8 +30,6 @@ class WashingtonHikes::Scraper
     end
     hikes
   end
-
-
 
   def self.scrape_wta_hike_details(url)
     # Scrape details
