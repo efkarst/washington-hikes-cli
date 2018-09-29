@@ -13,8 +13,7 @@ class WashingtonHikes::Hike
 
   # Create new hike instances with attributes gathered from scraped WTA page
   def self.create_from_wta
-    hikes = WashingtonHikes::Scraper.scrape_wta_hike_list
-    hikes.each do |hike| 
+    WashingtonHikes::Scraper.scrape_wta_hike_list.each do |hike| 
       hike[:region] = WashingtonHikes::Region.find_or_create_region_by_name(hike[:region])
       self.new(hike)
     end
