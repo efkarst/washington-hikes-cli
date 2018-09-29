@@ -26,7 +26,6 @@ class WashingtonHikes::Hike
 
   # Add additional properties to hikes users want to see details on
   def add_hike_details
-    scraped_details = WashingtonHikes::Scraper.scrape_wta_hike_description(self.url)
-    scraped_details.each {|key, value| self.send(("#{key}="), value)}
+    WashingtonHikes::Scraper.scrape_wta_hike_description(self.url).each {|key, value| self.send(("#{key}="), value)}
   end
 end
