@@ -100,7 +100,7 @@ class WashingtonHikes::CLI
 
   # Lists hikes in selected region
   def list_hikes(hikes)
-    hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain}"}
+    hikes.each.with_index(1) {|hike,i| puts "#{i}. #{hike.name} -- #{hike.length} miles, #{hike.type} -- #{hike.elevation_gain} ft elevation gain"}
   end
 
 
