@@ -1,8 +1,11 @@
 # WashingtonHikes
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/washington_hikes`. To experiment with that code, run `bin/console` for an interactive prompt.
+WashingtonHikesCLI will be a command-line app to allow a user to find a hike in a specified region of Washington state.  When the user runs the app, they will see a greeting and be able to choose the region they would like to look in, see all hikes or exit the app.   
 
-TODO: Delete this and the text above, and describe your gem
+If a user chooses to select a region, they will be asked to choose a region 'menu' to get to the main menu. If they select a region they will see a list of hikes available in that region including the name, length and elevation gain. The user can select a hike to see additional details like the description, features and rating.
+
+After looking at a hike's details the user can choose to browse hikes by region, see hikes across Washington or exit the app.
+
 
 ## Installation
 
@@ -32,7 +35,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/washington_hikes. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/efkarst/washington-hikes-cli. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
