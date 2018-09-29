@@ -7,7 +7,6 @@ class WashingtonHikes::Hike
   # Initialize a hike with a hash of attributes, and connect hike and region instances
   def initialize(attributes)
     attributes.each {|key, value| self.send(("#{key}="), value)}
-    @region.add_hike(self)
     @@all << self
   end
 
@@ -15,7 +14,8 @@ class WashingtonHikes::Hike
   def self.create_from_wta
     WashingtonHikes::Scraper.scrape_wta_hike_list.each do |hike| 
       hike[:region] = WashingtonHikes::Region.find_or_create_region_by_name(hike[:region])
-      self.new(hike)
+      new_hike = self.new(hike)
+      new_hike.region.add_hike(new_hike)
     end
   end
 
