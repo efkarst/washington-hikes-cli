@@ -29,3 +29,4 @@ class WashingtonHikes::Hike
     WashingtonHikes::Scraper.scrape_wta_hike_description(self.url).each {|key, value| self.send(("#{key}="), value)}
   end
 end
+
