@@ -131,17 +131,15 @@ class WashingtonHikes::CLI
     puts "4. Exit the app.\n "
     puts "Type '1', '2', '3' or '4' to choose."
 
-    input = gets.chomp
+    input = gets.chomp.to_i
   
     case input
-    when "1"
-      choose_hike      # User can choose a hike from the region the current hike is in
-    when "2"
-      @region = nil  # User can choose a hike from all hikes
-      choose_hike
-    when "3"
+    when 1..2
+      @region = nil if input == 2 # Remove region scope of hike list if user chooses all hikes
+      choose_hike      # User can choose a new hike
+    when 3
       choose_region    # User can choose a new region to brose
-    when "4"
+    when 4
       exit             # Exit the app
     else
       what_next?       # If input isn't recognized, prompt user again
