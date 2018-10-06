@@ -5,7 +5,7 @@ class WashingtonHikes::CLI
     puts "\n\nWelcome to Washington Hikes!"
     puts "\n\nFinding the most popular hikes across Washington..."
     WashingtonHikes::Hike.create_from_wta
-    @region = "all"
+    @region = nil
     welcome
   end
 
@@ -70,7 +70,7 @@ class WashingtonHikes::CLI
   # Prompts users to choose a hike from a list of hikes
   def choose_hike
     # Gather list of hikes - either all hikes, or hikes in a specific region
-    if @region == "all"
+    if @region == nil
       puts "\n\nHere are the most popular hikes in Washington:\n "
       hikes = WashingtonHikes::Hike.all
     else
@@ -137,7 +137,7 @@ class WashingtonHikes::CLI
     when "1"
       choose_hike      # User can choose a hike from the region the current hike is in
     when "2"
-      @region = "all"  # User can choose a hike from all hikes
+      @region = nil  # User can choose a hike from all hikes
       choose_hike
     when "3"
       choose_region    # User can choose a new region to brose
