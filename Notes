@@ -11,6 +11,3 @@ The user will not be able to create or edit hikes.
 This CLI project will have three classes: Hike, HikeScraper and WashingtonHikesCLI. 
 
 
-QUESTIONS
-1. how do I make my code run without "ruby" before the executables on a Windows device?
-2. 

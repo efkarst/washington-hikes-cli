@@ -9,11 +9,11 @@ After looking at a hike's details the user can choose to browse hikes by region,
 
 ## Installation
 
-To run Washington Hikes clone the repository to your machine: https://github.com/efkarst/washington-hikes-cli
+To run Washington Hikes clone the repository to your machine: https://github.com/efkarst/washington-hikes-cli. Use Ruby >= 2.5.1 and run "bundle install" to install dependencies.
 
 
 ## Usage
-Run ./bin/washington-hikes and follow the on screen prompts. 
+Run "ruby ./bin/washington-hikes" and follow the on screen prompts.
 
 
 ## Contributing
